@@ -1,0 +1,7 @@
+[deps]
+AStarSearch = "e6cbe913-2b79-4cc5-848a-e3bbf8537828"
+Chain = "8be319e6-bccf-4806-a6f7-6fae938471bc"
+Combinatorics = "861a8166-3701-5b0c-9a16-15d98fcdc6aa"
+Graphs = "86223c79-3864-5bf0-83f7-82e725a168b6"
+Lazy = "50d2b5c4-7a5e-59d5-8109-a42b560f39c0"
+OhMyREPL = "5fb14364-9ced-5910-84b2-373655c76a03"
