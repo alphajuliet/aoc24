@@ -176,6 +176,11 @@
      (let [x (first s)]
        (cons x (when-not (pred x) (take-upto pred (rest s))))))))
 
+(defn remove-elt
+  "Remove the nth item from the collection"
+  [n coll]
+  (vec (concat (take n coll) (drop (inc n) coll))))
+
 ;;--------------------------------
 ;; Misc
 
