@@ -16,3 +16,7 @@ Part 1 is a couple of straightforward tests over the difference vectors. Part 2 
 ## Day 3
 
 With some regex, part 1 is easy. For part 2 we need to thread some state throughout both the individual lines and also the entire sequence of lines. Because of immutable data my go-to for managing state is `reduce`, so I used it twice in nested functions to give me the answer.
+
+## Day 4
+
+So, I initially misread the question and coded up a much more complex (and interesting) solution. I eventually realised my error on the test data, went back to the beginning and did it right for part 1. Part 2, however, seems fine (thanks again `frequencies`) but I'm somehow overshooting the answer. Hmm. I'll be back to it later.

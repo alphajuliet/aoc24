@@ -19,7 +19,7 @@
 
 (defn get-string
   "Get the string in a given direction from the starting position"
-  [m [r c] [dr dc]]
+  [m [r c] [dr dc] n]
   (reduce (fn [acc i]
             (let [r' (+ r (* i dr))
                   c' (+ c (* i dc))
@@ -29,33 +29,60 @@
                 (str acc (m/mget m r' c'))
                 acc)))
           ""
-          (range 4)))
+          (range n)))
 
 (defn get-all-strings
-  "Return the 4-letter strings in every direction from the starting point. Return nil if they
+  "Return the n-letter strings in every direction from the starting point. Return nil if they
    exceed the boundaries"
-  [m rc]
+  [m rc n]
   (let [dirs [[-1 -1] [-1 0] [-1 1]
               [0 -1] [0 1]
               [1 -1] [1 0] [1 1]]]
     (->> dirs
-         (map #(get-string m rc %))
+         (map #(get-string m rc % n))
          (filter #(= "XMAS" %)))))
 
+(defn safe-mget
+  "Try and get a matrix value at a coord. Return nil if it fails."
+  [m [r c]]
+  (let [[rmax cmax] (m/shape m)]
+    (if (and (<= 0 r (dec rmax))
+             (<= 0 c (dec cmax)))
+      (m/mget m r c)
+      nil)))
+
+(defn get-diagonal-letters
+  "Get the diagonally adjacent letters"
+  [m [r c]]
+  (let [dirs [[-1 -1] [-1 1] [1 -1] [1 1]]]
+    (->> dirs
+         (map #(map + [r c] %))
+         (map #(safe-mget m %)))))
+         
 (defn part1
   [f]
   (let [m (read-data f)]
     (->> (find-all m "X")
-         (map #(get-all-strings m %))
+         (map #(get-all-strings m % 4))
          flatten
          count)))
+
+(defn part2
+  [f]
+  (let [m (read-data f)]
+    (->> (find-all m "A")
+         (map #(get-diagonal-letters m %))
+         (map frequencies)
+         (util/count-if #(= {"M" 2 "S" 2} %)))))
     
 (comment
   (def testf "data/day04-test.txt")
-  (def test0f "data/day04-test0.txt")
   (def inputf "data/day04-input.txt")
 
-  (time (part1 testf))
-  (time (part1 inputf)))
+  (part1 testf)
+  (part1 inputf)
+  
+  (part2 testf)
+  (part2 inputf))
   
 ;; The End
