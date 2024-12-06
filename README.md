@@ -20,3 +20,9 @@ With some regex, part 1 is easy. For part 2 we need to thread some state through
 ## Day 4
 
 So, I initially misread the question and coded up a much more complex (and interesting) solution. I eventually realised my error on the test data, went back to the beginning and did it right for part 1. Part 2, however, seems fine (thanks again `frequencies`) but I'm somehow overshooting the answer. Hmm. I'll be back to it later.
+
+## Day 5
+
+I recognised early that this was about partial orderings, and [partially ordered sets](https://en.wikipedia.org/wiki/Partially_ordered_set) or "posets". A graph is the obvious data structure but rather than using my go-to of `ubergraph` I just did it with hash maps of sets with the given integers and made up comparators to check the partial orderings. Part 1 was a bit more code than I'd like, but it came in useful for part 2 when the comparator was already available for re-sorting the invalid orderings. This was a good day.
+
+I also introduced transducers for fun in the top-level functions. I may need them later when I have larger collections.

@@ -21,7 +21,9 @@
    "Create a partially ordered set from the rules provided"
    [rules]
    (reduce (fn [acc [k v]]
-             (update acc k #(conj % v)))
+             (if (contains? acc k)
+               (update acc k #(conj % v))
+               (assoc acc k #{v})))
            {}
            rules))
 
@@ -29,7 +31,7 @@
   "Is a > b according to the poset?"
   [poset [a b]]
   (if (contains? poset a)
-    (util/coll-contains? (vec (get poset a)) b)
+    (contains? (get poset a) b)
     false))
 
 (defn is-ordered-coll?
@@ -42,6 +44,7 @@
 
 (defn get-middle-element
   [coll]
+  {:pre [(odd? (count coll))]}
   (let [median (/ (count coll) 2)]
     (nth coll (int median))))
 
@@ -50,13 +53,27 @@
   (let [{:keys [rules updates]} (read-data f)
         poset (create-poset rules)]
     (->> updates
-         (filter #(is-ordered-coll? poset %))
-         (map get-middle-element)
-         (reduce +))))
-         
+         (transduce
+          (comp (filter (partial is-ordered-coll? poset))
+                (map get-middle-element))
+          +))))
+
+(defn part2
+  [f]
+  (let [{:keys [rules updates]} (read-data f)
+        poset (create-poset rules)]
+    (->> updates
+         (transduce
+          (comp (remove (partial is-ordered-coll? poset))
+                (map (partial sort #(is-ordered? poset [%2 %1])))
+                (map get-middle-element))
+          +))))
+
 (comment
   (def testf "data/day05-test.txt")
   (def inputf "data/day05-input.txt")
-  
+
   (part1 testf)
-  (part1 inputf))
+  (part1 inputf)
+  (part2 testf)
+  (part2 inputf))
