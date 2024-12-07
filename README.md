@@ -26,3 +26,7 @@ So, I initially misread the question and coded up a much more complex (and inter
 I recognised early that this was about partial orderings, and [partially ordered sets](https://en.wikipedia.org/wiki/Partially_ordered_set) or "posets". A graph is the obvious data structure but rather than using my go-to of `ubergraph` I just did it with hash maps of sets with the given integers and made up comparators to check the partial orderings. Part 1 was a bit more code than I'd like, but it came in useful for part 2 when the comparator was already available for re-sorting the invalid orderings. This was a good day.
 
 I also introduced transducers for fun in the top-level functions. I may need them later when I have larger collections.
+
+## Day 6
+
+Part 1 is a familiar process of simulating movement through an environment based on simple rules, so I pulled out the `reduce` for state management to traverse the room. Convering the input map into coordinates was the little wrinkle that took some time early on. Part 2 is a good puzzle and I can kinda see how to do it logically, but I'm not yet convinced I can find the correct and complete list of candidate obstacle locations and certainly not how to translate that into code. This one goes on hold for now.

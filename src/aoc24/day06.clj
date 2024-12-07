@@ -20,12 +20,12 @@
   (let [lines (util/read-lines f)
         rows (count lines)
         cols (count (first lines))
-        guard-loc (first (find-item lines \^))]
+        guard {:loc (first (find-item lines \^)) :dir [-1 0]}]
     {:dims [rows cols]
      :distance 0
-     :trail #{guard-loc}
+     :trail #{guard}
      :obstacles (find-item lines \#)
-     :guard {:loc guard-loc :dir [-1 0]}}))
+     :guard guard}))
 
 (defn turn-right
   [[dr dc]]
@@ -34,17 +34,18 @@
 (defn move-guard
   "Move the guard one step and return the new state"
   [{:keys [obstacles guard] :as state}]
-  (let [next (mapv + (:loc guard) (:dir guard))]
-    (if (some #(= next %) obstacles)
+  (let [next-loc (mapv + (:loc guard) (:dir guard))]
+    (if (some #(= next-loc %) obstacles)
       (update-in state [:guard :dir] turn-right)
+      ;; else
       (-> state
-          (assoc-in [:guard :loc] next)
-          (update :trail conj next)
+          (assoc-in [:guard :loc] next-loc)
+          (update :trail conj {:loc next-loc :dir (:dir guard)})
           (update :distance inc)))))
 
 (defn traverse-room
   "Traverse the room until we leave or run out of time"
-  [{:keys [dims guard] :as state}]
+  [{:keys [dims] :as state}]
   (reduce (fn [st _]
             (let [st' (move-guard st)
                   [rmax cmax] dims
@@ -55,6 +56,13 @@
                 st')))
           state
           (range 10000)))
+
+(defn add-obstacles 
+  "Find all the potential locations for obstacles that force the guard into a loop.
+   => find where the trail intersects with a 90º difference in direction"
+  [state]
+  (let [{:keys [trail]} state]
+    (group-by :loc trail)))
     
 (defn part1
   [f]
@@ -62,14 +70,24 @@
        read-data
        traverse-room
        (:trail)
+       (map :loc)
+       set
        count
        dec))
+
+(defn part2
+  [f]
+  (->> f
+       read-data
+       traverse-room
+       add-obstacles))
 
 (comment
   (def testf "data/day06-test.txt")
   (def inputf "data/day06-input.txt")
 
   (part1 testf)
-  (part1 inputf))
+  (part1 inputf)
+  (part2 testf))
 
 ;; The End
