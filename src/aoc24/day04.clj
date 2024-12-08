@@ -52,12 +52,20 @@
       nil)))
 
 (defn get-diagonal-letters
-  "Get the diagonally adjacent letters"
+  "Get the diagonally adjacent letters, clockwise from top left"
   [m [r c]]
-  (let [dirs [[-1 -1] [-1 1] [1 -1] [1 1]]]
+  (let [dirs [[-1 -1] [-1 1] [1 1] [1 -1]]]
     (->> dirs
          (map #(map + [r c] %))
          (map #(safe-mget m %)))))
+
+(defn allowed?
+  [coll]
+  (let [s (str/join coll)]
+    (or (= s "MMSS")
+        (= s "MSSM")
+        (= s "SMMS")
+        (= s "SSMM"))))
          
 (defn part1
   [f]
@@ -72,16 +80,15 @@
   (let [m (read-data f)]
     (->> (find-all m "A")
          (map #(get-diagonal-letters m %))
-         (map frequencies)
-         (util/count-if #(= {"M" 2 "S" 2} %)))))
+         (util/count-if allowed?))))
     
 (comment
+  (def pp clojure.pprint/pprint)
+
   (def testf "data/day04-test.txt")
   (def inputf "data/day04-input.txt")
-
   (part1 testf)
   (part1 inputf)
-  
   (part2 testf)
   (part2 inputf))
   
