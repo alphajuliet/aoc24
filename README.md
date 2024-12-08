@@ -30,3 +30,8 @@ I also introduced transducers for fun in the top-level functions. I may need the
 ## Day 6
 
 Part 1 is a familiar process of simulating movement through an environment based on simple rules, so I pulled out the `reduce` for state management to traverse the room. Convering the input map into coordinates was the little wrinkle that took some time early on. Part 2 is a good puzzle and I can kinda see how to do it logically, but I'm not yet convinced I can find the correct and complete list of candidate obstacle locations and certainly not how to translate that into code. This one goes on hold for now.
+
+## Day 7
+
+Originally, I was going to make a fancy binary tree and then cleverly insert combinations of operations to see what made the result. I then realised the operations are a simple sequence over the list so I more cleverly left things as vectors and did a fold (a.k.a. my mate `reduce`) over the input numbers for each combination of operators and see where they equalled the result. This caused a slight combinatorial explosion in part 2 with the extra operator, but we got there. I give a nod also to `clojure.math.combinatorics` for the `selection` function.
+
