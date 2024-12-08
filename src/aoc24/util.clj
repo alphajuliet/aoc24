@@ -16,6 +16,8 @@
 ;;--------------------------------
 ;; Collections
 
+(def any? (comp boolean some))
+
 (defn coll-contains?
   "Check if a collection contains the given element"
   ;; coll-contains? -> Coll a -> a -> Boolean
