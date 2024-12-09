@@ -37,3 +37,6 @@ Part 1 is a familiar process of simulating movement through an environment based
 
 Originally, I was going to make a fancy binary tree and then cleverly insert combinations of operations to see what made the result. I then realised the operations are a simple sequence over the list so I more cleverly left things as vectors and did a fold (a.k.a. my mate `reduce`) over the input numbers for each combination of operators and see where they equalled the result. This caused a slight combinatorial explosion in part 2 with the extra operator, but we got there. I give a nod also to `clojure.math.combinatorics` for the `selection` function.
 
+## Day 8
+
+Now we're getting into some fibre. Getting the data into a good structure is the first and often the critical decision in tackling the problem. I overdid this one slightly in part 1 by unnecessarily tracking the labels of each node and antinode but it didn't impact much.
