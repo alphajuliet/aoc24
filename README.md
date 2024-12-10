@@ -1,9 +1,8 @@
 # Advent of Code 2024
 
-My advent-ures in code in AOC 2024, predominantly in Clojure, but occasionally in something
-different.
+My advent-ures in code in AOC 2024, predominantly in my favourite language Clojure, but occasionally in something different if I'm feeling adventurous.
 
-There is some commentary on the challenges below. Look at the source(s) for more detail.
+Below is some commentary on the challenges. Look at the source(s) for more detail.
 
 ## Day 1
 
@@ -39,4 +38,4 @@ Originally, I was going to make a fancy binary tree and then cleverly insert com
 
 ## Day 8
 
-Now we're getting into some fibre. Getting the data into a good structure is the first and often the critical decision in tackling the problem. I overdid this one slightly in part 1 by unnecessarily tracking the labels of each node and antinode but it didn't impact much.
+Now we're getting into some fibre. Getting the data into a good structure is the first and often the critical decision in tackling the problem. I overdid this one slightly in part 1 by unnecessarily tracking the labels of each node and antinode but it didn't impact much. Part 2 was a simple extension of the part 1 solution, using the excellent `iterate` and `tqke-while` functions, and a predicate that checks that the generated coordinates are within the bounds of the grid.  Did I say that I really like Clojure?
