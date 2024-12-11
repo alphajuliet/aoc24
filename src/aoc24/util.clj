@@ -2,6 +2,7 @@
   (:require [clojure.string :as str]
             [clojure.edn :as edn]
             [clojure.pprint :as pp]
+            [clojure.core.matrix :as m]
             [clojure.math :as math]))
 
 ;;--------------------------------
@@ -183,6 +184,24 @@
   [n coll]
   (vec (concat (take n coll) (drop (inc n) coll))))
 
+;;--------------------------------
+;; Matrix functions
+(defn mat-find-all
+  "Find all the indices of a in mat"
+  [mat a]
+  (for [[r c] (m/index-seq mat)
+        :when (= a (m/mget mat r c))]
+    [r c]))
+
+(defn safe-mget
+  "Try and get a matrix value at a coord. Return nil if it fails."
+  [m [r c]]
+  (let [[rmax cmax] (m/shape m)]
+    (if (and (<= 0 r (dec rmax))
+             (<= 0 c (dec cmax)))
+      (m/mget m r c)
+      nil)))
+      
 ;;--------------------------------
 ;; Misc
 
