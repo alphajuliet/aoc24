@@ -39,3 +39,8 @@ Originally, I was going to make a fancy binary tree and then cleverly insert com
 ## Day 8
 
 Now we're getting into some fibre. Getting the data into a good structure is the first and often the critical decision in tackling the problem. I overdid this one slightly in part 1 by unnecessarily tracking the labels of each node and antinode but it didn't impact much. Part 2 was a simple extension of the part 1 solution, using the excellent `iterate` and `tqke-while` functions, and a predicate that checks that the generated coordinates are within the bounds of the grid.  Did I say that I really like Clojure?
+
+## Day 9
+
+Part 1 is a little fiddly but ok. Part 2 requires a different approach by dealing with larger chunks. I understand the algorithm but I haven't worked out how to code it elegantly in Clojure yet. I'll keep thinking about that while I charge on.
+

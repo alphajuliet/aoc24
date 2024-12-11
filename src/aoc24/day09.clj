@@ -24,16 +24,38 @@
                (not even?)
                (if even? (inc id) id))))))
 
-(defn defrag
-  "One pass of the defrag algorithm"
-  [v]
-  (loop [u v]
-    (if (neg-int? (.indexOf u -1))
-      u
-      (let [i (.indexOf u -1)]
-        (recur (-> u
-                   (assoc i (last u))
+(defn to-files
+  "Convert the disk map into contiguous files"
+  [disk-map]
+  (loop [s disk-map
+         disk []
+         even? true
+         id 0]
+    (if (empty? s)
+      disk
+      ;; else
+      (let [n (- (int (first s)) 48)    ; length of added list
+            id' (if even? id -1)]         ; number to add
+        (recur (subs s 1)
+               (conj disk (list id' n))   ; id and size
+               (not even?)
+               (if even? (inc id) id))))))
+
+(defn defrag-blocks
+  [blocks]
+  (loop [b blocks]
+    (if (neg-int? (.indexOf b -1))
+      b
+      (let [i (.indexOf b -1)]
+        (recur (-> b
+                   (assoc i (last b))
                    pop))))))
+
+(defn defrag-files
+  "Part 2 algorithm"
+  [files]
+  (let []
+    files))
 
 (defn checksum
   [v]
@@ -45,11 +67,16 @@
   (let [data (read-data f)]
     (->> data
          to-disk
-         defrag
+         defrag-blocks
          checksum)))
 
 (defn part2
-  [f])
+  [f]
+  (let [data (read-data f)]
+    (->> data
+         to-files
+         defrag-files
+         #_checksum)))
 
 (comment
   (def testf "data/day09-test.txt")

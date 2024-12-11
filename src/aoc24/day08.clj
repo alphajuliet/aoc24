@@ -34,7 +34,7 @@
 
 (defn antinodes2
   "Find all antinodes, including resonances"
-  [dims [id1 rc1] [id2 rc2]]
+  [dims [_ rc1] [_ rc2]]
   (let [diff (map - rc1 rc2)]
     (into (take-while #(in-range? dims %) (iterate #(mapv + % diff) rc1))
           (take-while #(in-range? dims %) (iterate #(mapv - % diff) rc2)))))
@@ -70,7 +70,6 @@
        (count-antinodes antinodes2)))
 
 (comment
-  (def pp clojure.pprint/pprint)
   (def testf "data/day08-test.txt")
   (def inputf "data/day08-input.txt")
   (part1 testf)
