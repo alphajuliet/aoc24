@@ -38,7 +38,7 @@ Originally, I was going to make a fancy binary tree and then cleverly insert com
 
 ## Day 8
 
-Now we're getting into some fibre. Getting the data into a good structure is the first and often the critical decision in tackling the problem. I overdid this one slightly in part 1 by unnecessarily tracking the labels of each node and antinode but it didn't impact much. Part 2 was a simple extension of the part 1 solution, using the excellent `iterate` and `tqke-while` functions, and a predicate that checks that the generated coordinates are within the bounds of the grid.  Did I say that I really like Clojure?
+Now we're getting into some fibre. Getting the data into a good structure is the first and often the critical decision in tackling the problem. I overdid this one slightly in part 1 by unnecessarily tracking the labels of each node and antinode but it didn't impact much. Part 2 was a simple extension of the part 1 solution, using the excellent `iterate` and `take-while` functions, and a predicate that checks that the generated coordinates are within the bounds of the grid.  Did I say that I really like Clojure?
 
 ## Day 9
 
@@ -46,4 +46,4 @@ Part 1 is a little fiddly but ok. Part 2 requires a different approach by dealin
 
 ## Day 10
 
-This is pretty standard fare for AoC: finding paths in matrices under various constraints. These constraints are simple so it was easy to turn the matrix into a directed graph in `ubergraph` and use graph algorithms to find paths from the trailheads to the trail ends. For part 1 we only need the shortest paths (they are all the same length anyway), and in part 2 we need all the paths from each trail start to end. There is (sadly) no `ubergraph` function for that so I had to roll my own with my pal Claude.
+This is pretty standard fare for AoC: finding paths in matrices under various constraints. These constraints are simple so it was easy to turn the matrix into a directed graph in [ubergraph](https://github.com/Engelberg/ubergraph) and use graph algorithms to find paths from the trailheads to the trail ends. For part 1 we only need the shortest paths (they are all the same length anyway), and in part 2 we need all the paths from each trail start to end. There is (sadly) no `ubergraph` function for that so I had to roll my own with my pal Claude.
