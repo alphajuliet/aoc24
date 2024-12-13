@@ -47,3 +47,7 @@ Part 1 is a little fiddly but ok. Part 2 requires a different approach by dealin
 ## Day 10
 
 This is pretty standard fare for AoC: finding paths in matrices under various constraints. These constraints are simple so it was easy to turn the matrix into a directed graph in [ubergraph](https://github.com/Engelberg/ubergraph) and use graph algorithms to find paths from the trailheads to the trail ends. For part 1 we only need the shortest paths (they are all the same length anyway), and in part 2 we need all the paths from each trail start to end. There is (sadly) no `ubergraph` function for that so I had to roll my own with my pal Claude.
+
+## Day 11
+
+Ok, some simple rules in part 1, we run it over 25 iterations, easy gold star. Part 2 is the first case this year that precludes a brute force approach because we have some exponential growth going on. We need to be cleverer. Poking around Reddit shows some suggestions. I'll park this one and come back to it when I make the time to think more deeply about it.

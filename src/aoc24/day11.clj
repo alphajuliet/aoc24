@@ -34,12 +34,19 @@
          (blink-coll 25)
          count)))
     
+(defn part2
+  [f]
+  (let [data (read-data f)]
+    (->> data
+         (blink-coll 25)
+         count)))
+
 (comment
   (def testf "data/day11-test.txt")
   (def inputf "data/day11-input.txt")
   (part1 testf)
   (part1 inputf)
-  #_(part2 testf)
+  (part2 testf)
   #_(part2 inputf))
 
 ;; The End
