@@ -51,3 +51,7 @@ This is pretty standard fare for AoC: finding paths in matrices under various co
 ## Day 11
 
 Ok, some simple rules in part 1, we run it over 25 iterations, easy gold star. Part 2 is the first case this year that precludes a brute force approach because we have some exponential growth going on. We need to be cleverer. Poking around Reddit shows some suggestions. I'll park this one and come back to it when I make the time to think more deeply about it.
+
+## Day 12
+
+Part 1 is a matter of working out which cells are on the perimeter, i.e. have one more neighbours that are outside the region. Part 2 is more challenging because we need to find merge cell edges to form sides. A Reddit tip is that the number of sides equals the number of corners, so that gives two approaches. Both require some careful thinking about all the cases. Parked for now.
