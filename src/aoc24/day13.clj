@@ -58,10 +58,21 @@
        flatten
        (reduce + 0)))
 
+(defn part2
+  [f]
+  (->> f
+       read-data
+       (map #(update % 2 (partial mapv (partial + 1e13))))
+       (keep solve-eqn)
+       flatten
+       (reduce + 0)))
+
 (comment
   (def testf "data/day13-test.txt")
   (def inputf "data/day13-input.txt")
   (part1 testf)
-  (part1 inputf))
+  (part1 inputf)
+  (part2 testf)
+  (part2 inputf))
 
 ;; The End

@@ -55,3 +55,7 @@ Ok, some simple rules in part 1, we run it over 25 iterations, easy gold star. P
 ## Day 12
 
 Part 1 is a matter of working out which cells are on the perimeter, i.e. have one more neighbours that are outside the region. Part 2 is more challenging because we need to find merge cell edges to form sides. A Reddit tip is that the number of sides equals the number of corners, so that gives two approaches. Both require some careful thinking about all the cases. Parked for now.
+
+## Day 13
+
+This one is a little easier than I thought. The problem can be expressed as a simple 2x2 linear equation, so I pull out my trusty `clojure.core.matrix` library to solve it. Part 2 adds a very large number to the output but it doesn't change the approach and the matrix library can handle it, no problem.
