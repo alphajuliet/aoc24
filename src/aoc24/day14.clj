@@ -18,7 +18,7 @@
   [data]
   (insta/transform
    {:robot vector
-    :position #(vector %2 %1)
+    :position #(vector %2 %1) ;; Convert from [x y] to [r c]
     :velocity #(vector %2 %1)
     :number edn/read-string}
    data))
@@ -44,6 +44,36 @@
             (map #(move dims %) st))
           robots
           (range n)))
+
+(defn to-quadrant
+  [[r-mid c-mid] [r c]]
+  (cond
+    (and (< r r-mid) (< c c-mid)) 1
+    (and (< r r-mid) (> c c-mid)) 2
+    (and (> r r-mid) (> c c-mid)) 3
+    (and (> r r-mid) (< c c-mid)) 4
+    :else nil))
+
+(defn safety-score
+  [dims robots]
+  (let [midp (mapv #(math/floor (/ % 2.0)) dims)]
+    (->> robots
+         (map first)
+         (keep #(to-quadrant midp %))
+         frequencies
+         vals
+         (apply *))))
+
+(defn move-robots-until-egg
+  [dims robots]
+  (reduce (fn [st t] 
+            (let [st' (map #(move dims %) st)]
+              ;; (if (< (x-variance st') 600)
+              (if (and (> t 6000) (< (safety-score dims st) 60000000))
+                (reduced t)
+                st')))
+          robots
+          (range 20000)))
           
 (defn to-quadrant
   [[r-mid c-mid] [r c]]
@@ -54,24 +84,34 @@
     (and (> r r-mid) (< c c-mid)) 4
     :else nil))
 
-(defn part1
-  [f dims]
-  (let [data (read-data f)
-        midp (mapv #(math/floor (/ % 2.0)) dims)]
-    (->> data
-         (move-robots 100 dims)
+(defn safety-score
+  [dims robots]
+  (let [midp (mapv #(math/floor (/ % 2.0)) dims)]
+    (->> robots
          (map first)
          (keep #(to-quadrant midp %))
          frequencies
          vals
          (apply *))))
 
+(defn part1
+  [f dims]
+  (let [data (read-data f)
+        midp (mapv #(math/floor (/ % 2.0)) dims)]
+    (->> data
+         (move-robots 100 dims)
+         (safety-score dims))))
+
+(defn part2
+  [f dims]
+  (->> (read-data f)
+       (move-robots-until-egg dims)))
+
 (comment
   (def testf "data/day14-test.txt")
   (def inputf "data/day14-input.txt")
   (part1 testf [7 11])
   (part1 inputf [103 101])
-  #_(part2 testf)
-  #_(part2 inputf))
+  (part2 inputf [103 101]))
   
 ;; The End

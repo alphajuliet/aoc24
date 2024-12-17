@@ -61,3 +61,7 @@ Part 1 is a matter of working out which cells are on the perimeter, i.e. have on
 This one is a little easier than I thought. The problem can be expressed as a simple 2x2 linear equation, so I pull out my trusty `clojure.core.matrix` library to solve it. Part 2 adds a very large number to the output but it doesn't change the approach and the matrix library can handle it, no problem.
 
 But wait, how did I transform each wordy input statement into a matrix? Well, I could do it with lots of regexs and splits but for elegance I like to use the `instaparse` library. The input grammar is simple and so generating some vectors isn't too much of a stretch, and I get to practice my EBNF.
+
+## Day 14
+
+So, part 1 is a bit like day 6 in that we simulate a bunch of robots traversing a torus, and then count their positions after 100 steps. Part 2 is very undefined, so I resorted to Reddit for some ideas, and settled on the safety score going below a certain threshold. It took some trial and error to set that limit, but it worked. Oh, and I got to make a parser again.
