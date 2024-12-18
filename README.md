@@ -54,7 +54,7 @@ Ok, some simple rules in part 1, we run it over 25 iterations, easy gold star. P
 
 ## Day 12
 
-Part 1 is a matter of working out which cells are on the perimeter, i.e. have one more neighbours that are outside the region. Part 2 is more challenging because we need to find merge cell edges to form sides. A Reddit tip is that the number of sides equals the number of corners, so that gives two approaches. Both require some careful thinking about all the cases. Parked for now.
+Part 1 is a matter of working out which cells are on the perimeter, i.e. have one more neighbours that are outside the region. Part 2 is more challenging because we need to find merged cell edges to form sides. A Reddit tip is that the number of sides equals the number of corners, so that gives two approaches. Both require some careful thinking about all the cases. Parked for now.
 
 ## Day 13
 
@@ -65,3 +65,8 @@ But wait, how did I transform each wordy input statement into a matrix? Well, I 
 ## Day 14
 
 So, part 1 is a bit like day 6 in that we simulate a bunch of robots traversing a torus, and then count their positions after 100 steps. Part 2 is very undefined, so I resorted to Reddit for some ideas, and settled on the safety score going below a certain threshold. It took some trial and error to set that limit, but it worked. Oh, and I got to make a parser again.
+
+## Day 15
+
+I thought carefully about this one, and how to best represent the warehouse and how to work out which boxes move where. I contemplated some weird recursive solution but had an epiphany and realised that I could just use a regular expression replacement (`str/replace`) on the strings themselves. That was very compact but still needed to be wrapped in code to `update` the immutable data, and a `reduce` to transit through all the moves. I was very happy with that... until I saw Part 2, and realised my clever little regex scheme will not work. Back to square one. Parked...
+
