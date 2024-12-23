@@ -35,7 +35,7 @@
   [{:keys [a b c ip code] :as state}]
   (let [opcode (get code ip)
         operand (get code (inc ip))]
-    (println opcode operand)
+    #_(println opcode operand)
     (case opcode
       ;; adv
       0 (-> state 
@@ -80,8 +80,7 @@
          (reduced st')
          (do
            #_(println st')
-           st'))
-      ))
+           st'))))
    state0
    (range 1000)))
 
@@ -94,12 +93,23 @@
          :out
          (str/join ","))))
 
+(defn part2
+  [f a]
+  (let [state (->> f read-data init-state)
+        code (:code state)]
+    (-> state
+        (assoc :a a)
+        execute-program)))
+
 (comment
   (def testf "data/day17-test.txt")
+  (def test2f "data/day17-test2.txt")
+  (def test3f "data/day17-test3.txt")
   (def inputf "data/day17-input.txt")
   (part1 testf)
   (part1 inputf)
-  #_(part2 testf)
+  (part2 test2f 0345300)
+  (part2 test3f 01000002724)
   #_(part2 inputf)
 
 ;; The End

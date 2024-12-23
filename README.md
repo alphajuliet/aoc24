@@ -73,3 +73,7 @@ I thought carefully about this one, and how to best represent the warehouse and 
 ## Day 16
 
 Ok, here's the first major pathfinding test, with a twist, literally in that rotations count in the cost. I had a generic shortest path algorithm ready to go---thanks [Nic McPhee](https://github.com/NicMcPhee/a-star-search/blob/master/src/search/algorithms.clj). I had it working on the base case with a simple cost, but now I needed to thread the orientation state through the various functions.  It was going to be a major pain so I called on my pal Claude (3.5 Sonnet) to help out. Claude did a fantastic job of updating the functions, and also then fixed a `NullPointerException` where it missed something. Suitably impressed, I solved part 1. Part 2 needed some work to capture all the shortest paths and then the set of all the visited locations. Again, Claude helped here because this was proving painful. 
+
+## Day 17
+
+I enjoy writing these little microcode machines so part 1 was fun. Part 2 not so much. I kinda have a vague idea of how to tackle this from my reading on Reddit, but it requires some search algorithm, and will end up with some large integers. It needs some deeper thought. I'd rather charge on for now, so this one is parked. 
