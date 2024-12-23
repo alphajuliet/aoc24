@@ -74,7 +74,7 @@
     (cond
       (nil? current-state) nil
       (= current-state start-state) (reverse (conj path start-state))
-      :else (recur (came-from current-state)
+      :else (recur (get came-from current-state)
                    (conj path current-state)))))
 
 ;; The End
