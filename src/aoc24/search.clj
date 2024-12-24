@@ -77,4 +77,46 @@
       :else (recur (get came-from current-state)
                    (conj path current-state)))))
 
+(defn find-all-paths
+  [children-fn cost-fn max-states start-state goal-state]
+  (loop [max-states max-states
+         frontier (pm/priority-map start-state 0)
+         came-from {start-state #{}}
+         cost-so-far {start-state 0}]
+    (if (neg? max-states)
+      [came-from cost-so-far]
+      (if (empty? frontier)
+        [came-from cost-so-far]
+        (let [current (first (peek frontier))
+              current-cost (cost-so-far current)
+              children (set (children-fn current))
+              children-costs (reduce #(assoc %1 %2 (+ current-cost (cost-fn current %2))) {} children)
+              children-to-process (for [child children]
+                                  [child (children-costs child)])
+              new-state (reduce (fn [state [child cost]]
+                                (let [{:keys [came-from cost-so-far frontier]} state]
+                                  (if (or (not (contains? cost-so-far child))
+                                        (<= cost (cost-so-far child)))
+                                    {:came-from (update came-from child #(conj (or % #{}) current))
+                                     :cost-so-far (assoc cost-so-far child cost)
+                                     :frontier (assoc frontier child cost)}
+                                    state)))
+                              {:came-from came-from
+                               :cost-so-far cost-so-far
+                               :frontier (pop frontier)}
+                              children-to-process)]
+          (recur (dec max-states)
+                 (:frontier new-state)
+                 (:came-from new-state)
+                 (:cost-so-far new-state)))))))
+
+(defn extract-all-paths
+  [came-from start-state goal-state]
+  (letfn [(dfs [current path]
+            (if (= current start-state)
+              (list (reverse path))
+              (when-let [predecessors (seq (get came-from current))]
+                (mapcat #(dfs % (conj path current)) predecessors))))]
+    (dfs goal-state [])))
+
 ;; The End

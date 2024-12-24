@@ -77,3 +77,7 @@ Ok, here's the first major pathfinding test, with a twist, literally in that rot
 ## Day 17
 
 I enjoy writing these little microcode machines so part 1 was fun. Part 2 not so much. I kinda have a vague idea of how to tackle this from my reading on Reddit, but it requires some search algorithm, and will end up with some large integers. It needs some deeper thought. I'd rather charge on for now, so this one is parked. 
+
+## Day 18
+
+For this one, I called on my generic pathfinding algorithm, which worked fine for part 1. Part 2 needs more finesse because we need to consider all the paths from start to end and then work out when none of them are valid any more. I had a solution but it ran out of memory. I couldn't optimise it enough so resorted to good old brute force, while I went out and drank beer. It worked, but it's far from an elegant solution.
