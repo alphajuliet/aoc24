@@ -68,7 +68,7 @@ So, part 1 is a bit like day 6 in that we simulate a bunch of robots traversing 
 
 ## Day 15
 
-I thought carefully about this one, and how to best represent the warehouse and how to work out which boxes move where. I contemplated some weird recursive solution but had an epiphany and realised that I could just use a regular expression replacement (`str/replace`) on the strings themselves. That was very compact but still needed to be wrapped in code to `update` the immutable data, and a `reduce` to transit through all the moves. I was very happy with that... until I saw Part 2, and realised my clever little regex scheme will not work. Back to square one. Parked...
+i thought carefully about this one, and how to best represent the warehouse and how to work out which boxes move where. I contemplated some weird recursive solution but had an epiphany and realised that I could just use a regular expression replacement (`str/replace`) on the strings themselves. That was very compact but still needed to be wrapped in code to `update` the immutable data, and a `reduce` to transit through all the moves. I was very happy with that... until I saw Part 2, and realised my clever little regex scheme will not work. Back to square one. Parked...
 
 ## Day 16
 
@@ -85,3 +85,7 @@ For this one, I called on my generic pathfinding algorithm, which worked fine fo
 ## Day 19
 
 As this is a parsing problem we can roll out `instaparse`. The initial list holds the symbols, from which we can build a simple grammar, and the other list consists of the words to push through the parser. This is pretty trivial for part 1 once we've built a grammar. In Part 2 I anticipated using the handy `parses` function that returns all the matching parse trees for a given word. Perfect. Except that it runs out of heap space, despite my efforts, and so I can't complete this one yet. Memoisation might help but I'm not planning to go diving into the parser library to work out how.
+
+## Day 20
+
+I ground out part 1 by first finding the path from start to end and then going back to the start, looking for tunnelling opportunities at every point, through the wall, to somewhere else on the path that delivered a saving. For part 2, we need to find some shortest paths that go through one set of walls. I can sort of see how to do that, but, you know, I'm keen to get through at least all the first parts of the challenges before using hours on the second parts that are, at this point, typically much harder to think through.
