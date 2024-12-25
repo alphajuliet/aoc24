@@ -81,3 +81,7 @@ I enjoy writing these little microcode machines so part 1 was fun. Part 2 not so
 ## Day 18
 
 For this one, I called on my generic pathfinding algorithm, which worked fine for part 1. Part 2 needs more finesse because we need to consider all the paths from start to end and then work out when none of them are valid any more. I had a solution but it ran out of memory. I couldn't optimise it enough so resorted to good old brute force, while I went out and drank beer. It worked, but it's far from an elegant solution.
+
+## Day 19
+
+As this is a parsing problem we can roll out `instaparse`. The initial list holds the symbols, from which we can build a simple grammar, and the other list consists of the words to push through the parser. This is pretty trivial for part 1 once we've built a grammar. In Part 2 I anticipated using the handy `parses` function that returns all the matching parse trees for a given word. Perfect. Except that it runs out of heap space, despite my efforts, and so I can't complete this one yet. Memoisation might help but I'm not planning to go diving into the parser library to work out how.

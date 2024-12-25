@@ -18,6 +18,10 @@
   [grammar word]
   (if (map? (grammar word)) false true))
 
+(defn parse-trees
+  [grammar word]
+  (insta/parses grammar word))
+
 (defn part1
   [f]
   (let [[grammar word-list] (read-data f)
@@ -25,8 +29,21 @@
     (->> word-list
          (util/count-if (partial parseable? parser)))))
 
+(defn part2
+  [f]
+  (let [[grammar word-list] (read-data f)
+        parser (insta/parser grammar)]
+    (transduce
+     (comp (map (partial parse-trees parser))
+           (map count))
+     +
+     word-list)))
+
 (comment
   (def testf "data/day19-test.txt")
   (def inputf "data/day19-input.txt")
+  (def input1f "data/day19-input1.txt")
   (part1 testf)
-  (part1 inputf))
+  (part1 inputf)
+  (part2 testf)
+  (time (part2 inputf)))
