@@ -89,3 +89,7 @@ As this is a parsing problem we can roll out `instaparse`. The initial list hold
 ## Day 20
 
 I ground out part 1 by first finding the path from start to end and then going back to the start, looking for tunnelling opportunities at every point, through the wall, to somewhere else on the path that delivered a saving. For part 2, we need to find some shortest paths that go through one set of walls. I can sort of see how to do that, but, you know, I'm keen to get through at least all the first parts of the challenges before using hours on the second parts that are, at this point, typically much harder to think through.
+
+## Day 21
+
+This is the hardest puzzle so far in 2024, and I still don't have the answer. I've tried some basic optimisations for path length, and even though I have the right answer for the test input, I'm still too high on the real input. Damn.
