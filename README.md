@@ -93,3 +93,12 @@ I ground out part 1 by first finding the path from start to end and then going b
 ## Day 21
 
 This is the hardest puzzle so far in 2024, and I still don't have the answer. I've tried some basic optimisations for path length, and even though I have the right answer for the test input, I'm still too high on the real input. Damn.
+
+## Day 22
+
+Still a work in progress.
+
+## Day 23
+
+Now this was a good day. This is basic graph network stuff. Part 1 is finding all the fully connected subgraphs of order 3. There is no easy way to do this except check every triplet of nodes. Part 2 is about finding the largest maximal cliques in the graph and thanks to `ubergraph` we have that as a standard function, and then we filter on the largest.
+

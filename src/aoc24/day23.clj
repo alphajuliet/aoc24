@@ -1,8 +1,9 @@
-(ns aoc24.day23 
-  (:require
-   [aoc24.util :as util]
-   [clojure.set :as set]
-   [clojure.string :as str]))
+(ns aoc24.day23
+  (:require [aoc24.util :as util]
+            [clojure.set :as set]
+            [clojure.string :as str]
+            [ubergraph.alg :as alg]
+            [ubergraph.core :as uber]))
 
 (defn read-data
   [f]
@@ -32,6 +33,12 @@
          #{v1 v2 v3})
        (into #{})))
 
+(defn find-maximal-cliques
+  [conns]
+  (-> (uber/graph)
+      (uber/add-edges* conns)
+      (alg/maximal-cliques)))
+
 (defn part1
   [f]
   (let [data (read-data f)]
@@ -41,10 +48,21 @@
          (map #(apply str %))
          (util/count-if #(re-matches #"t.....|..t...|....t." %)))))
 
+(defn part2
+  [f]
+  (let [conns (read-data f)]
+    (->> conns
+         find-maximal-cliques
+         (apply max-key count)
+         (apply sorted-set)
+         (str/join ","))))
+
 (comment
   (def testf "data/day23-test.txt")
   (def inputf "data/day23-input.txt")
   (part1 testf)
-  (part1 inputf))
+  (part1 inputf)
+  (part2 testf)
+  (part2 inputf))
 
 ;; The End
