@@ -96,7 +96,7 @@ This is the hardest puzzle so far in 2024, and I still don't have the answer. I'
 
 ## Day 22
 
-Still a work in progress.
+Part 1 is easy and done, but part 2 needs some more thinking.
 
 ## Day 23
 
