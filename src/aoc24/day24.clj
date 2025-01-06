@@ -1,7 +1,8 @@
-(ns aoc24.day24 
-  (:require
-   [aoc24.util :as util]
-   [clojure.string :as str]))
+(ns aoc24.day24
+  (:require [aoc24.util :as util]
+            [clojure.string :as str]))
+
+(defn swap [f a b] (f b a))
 
 (defn read-value
   "Read the initial value into a vector 2-tuple"
@@ -65,13 +66,13 @@
   [f]
   (let [circuit (read-data f)
         outputs (filter #(str/starts-with? % "z") (keys circuit))]
-    (as-> circuit <>
-      (evaluate-circuit <>)
-      (select-keys <> outputs)
-      (into (sorted-map) <>)
-      (vals <>)
-      (reverse <>)
-      (bin->dec <>))))
+    (->> circuit
+         evaluate-circuit
+         (swap select-keys outputs)
+         (into (sorted-map))
+         vals
+         reverse
+         bin->dec)))
 
 (comment
   (def test1f "data/day24-test1.txt")
@@ -81,3 +82,5 @@
   (part1 test1f)
   (part1 test2f)
   (part1 inputf))
+
+;; The End

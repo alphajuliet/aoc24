@@ -102,3 +102,6 @@ Part 1 is easy and done, but part 2 needs some more thinking.
 
 Now this was a good day. This is basic graph network stuff. Part 1 is finding all the fully connected subgraphs of order 3. There is no easy way to do this except check every triplet of nodes. Part 2 is about finding the largest maximal cliques in the graph and thanks to `ubergraph` we have that as a standard function, and then we filter on the largest.
 
+## Day 24
+
+Even though I'm an elec eng I've never had to build a logic simulator before so this was fun. I asked Claude (3.5 Sonnet) for some help and it delivered in spades. I did all the input wrangling to produce the data and the outputs, but Claude came up with the core function `evaluate-circuit` and did it well. Still thinking about Part 2...
