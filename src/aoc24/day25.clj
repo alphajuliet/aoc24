@@ -1,7 +1,6 @@
-(ns aoc24.day25 
-  (:require
-   [clojure.string :as str]
-   [aoc24.util :as util]))
+(ns aoc24.day25
+  (:require [clojure.string :as str]
+            [aoc24.util :as util]))
 
 (defn get-size
   "Count the number of hash characters in a string"
@@ -25,8 +24,8 @@
     [locks keys]))
 
 (defn check-fit?
-  [v1 v2]
-  (every? #(<= % 5) (map + v1 v2)))
+  [lock key]
+  (every? #(<= % 5) (map + lock key)))
 
 (defn find-fit
   [locks keys]
