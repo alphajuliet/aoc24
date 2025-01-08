@@ -30,7 +30,9 @@ I also introduced transducers for fun in the top-level functions. I may need the
 
 ## Day 6
 
-Part 1 is a familiar process of simulating movement through an environment based on simple rules, so I pulled out the `reduce` for state management to traverse the room. Convering the input map into coordinates was the little wrinkle that took some time early on. Part 2 is a good puzzle and I can kinda see how to do it logically, but I'm not yet convinced I can find the correct and complete list of candidate obstacle locations and certainly not how to translate that into code. This one goes on hold for now.
+Part 1 is a familiar process of simulating movement through an environment based on simple rules, so I pulled out the `reduce` for state management to traverse the room. Convering the input map into coordinates was the little wrinkle that took some time early on. 
+
+Part 2 is a good puzzle and I coded up a solution that finds the segments fron the trail in Part 1, extends them, and looks for intersection with later segments. It's a little complicated and works on the test data, but the result for the input data is too low. It's hard to see why that is. 
 
 ## Day 7
 

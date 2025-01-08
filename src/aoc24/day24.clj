@@ -5,13 +5,14 @@
 (defn swap [f a b] (f b a))
 
 (defn read-value
-  "Read the initial value into a vector 2-tuple"
+  "Read the initial value into a hash map"
   [line]
   (let [[name value] (str/split line #" ")]
      [(apply str (butlast name))
       {:type "INPUT" :value (Integer/parseInt value)}]))
 
 (defn read-gate
+  "Read a gate into a hash map"
   [line]
   (let [[in1 op in2 _ out] (str/split line #" ")]
     [out {:type op :inputs [in1 in2]}]))
@@ -55,11 +56,31 @@
       (into {} (for [[id _] circuit]
                  [id (eval-node id)])))))
 
+(defn get-values
+  "Get the values for a given prefix"
+  [result prefix]
+  (->> result
+       keys
+       (filter #(str/starts-with? % prefix))
+       vec
+       (select-keys result)
+       (into (sorted-map))
+       vals))
+
+(defn show-result
+  "Show the inputs and outputs"
+  [result]
+  (let [x (get-values result "x")
+        y (get-values result "y")
+        z (get-values result "z")]
+    [x y z]))
+
 (defn bin->dec
+  "Convert a binary list to decimal"
   [bits]
   (reduce (fn [acc bit]
             (+ (* 2 acc) bit))
-          0 
+          0
           bits))
 
 (defn part1
