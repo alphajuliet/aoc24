@@ -37,7 +37,7 @@
       (let [n (- (int (first s)) 48)    ; length of added list
             id' (if even? id -1)]         ; number to add
         (recur (subs s 1)
-               (conj disk (list id' n))   ; id and size
+               (conj disk [id' n])   ; id and size
                (not even?)
                (if even? (inc id) id))))))
 
@@ -51,11 +51,50 @@
                    (assoc i (last b))
                    pop))))))
 
+(defn next-free
+  "Find the next free block from the left"
+  [fs a]
+  (loop [i a]
+    (let [i' (inc i)]
+      (cond
+        (= i' (count fs)) a
+        (= -1 (first (nth fs i'))) i'
+        :else (recur i')))))
+
+(defn prev-block
+  "Find the next block from the right"
+  [fs b]
+  (loop [i b]
+    (let [i' (dec i)]
+      (cond
+        (neg-int? i') b
+        (nat-int? (first (nth fs i'))) i'
+        :else (recur i')))))
+
+(defn step
+  "Execute one step on the file defrag process:
+   - get the first free block at the start (at location a')
+   - get the next available block from the end (at location b')
+   - move it if it fits
+   - consolidate the empty space if needed"
+  [{:keys [fs a b] :as state}]
+  (let [a' (next-free fs a)
+        b' (prev-block fs b)
+        st' (assoc state :a a' :b b')
+        [_ len-a] (nth fs a')
+        [val-b len-b] (nth fs b')]
+    (cond
+      (<= b' a') state
+      (<= len-b len-a) (-> st'
+                           (assoc-in [:fs a' 0] val-b)
+                           (assoc-in [:fs b' 0] -1))
+      :else st')))
+
+
 (defn defrag-files
-  "Part 2 algorithm"
-  [files]
-  (let []
-    files))
+  "File defrag algorithm"
+  [{:keys [fs a b] :as state}]
+  (step state))
 
 (defn checksum
   [v]
@@ -72,18 +111,20 @@
 
 (defn part2
   [f]
-  (let [data (read-data f)]
-    (->> data
-         to-files
+  (let [fs (->> f
+                read-data
+                to-files)]
+    (->> {:fs fs, :a 0, :b (dec (count fs))}
          defrag-files
          #_checksum)))
 
 (comment
   (def testf "data/day09-test.txt")
+  (def test2f "data/day09-test2.txt")
   (def inputf "data/day09-input.txt")
   (time (part1 testf))
   (time (part1 inputf))
   (part2 testf)
   (part2 inputf))
   
-;; The End
+;;  The End
