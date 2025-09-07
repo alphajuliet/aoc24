@@ -66,21 +66,30 @@
           (range 10000)))
 
 (defn- test-for-loop
-  "Test for a loop from turning right at step i in the trail"
+  "Test for a loop from turning right at step i in the trail. Don't repeat an existing obstacle."
   [state i]
-  (let [{:keys [loc dir]} (nth (:trail state) i)]
-    (-> state
-        (update :trail #(vec (take (inc i) %))) ;; truncate trail to the current position
-        (update :obstacles conj (mapv + loc dir)) ;; add an obstacle
-        (assoc :guard {:loc loc :dir dir})
-        traverse-room)))
+  (let [{:keys [loc dir]} (nth (:trail state) i)
+        [maxr maxc] (:dims state)
+        [obs-r obs-c :as new-obs] (mapv + loc dir)
+        new-trail (vec (take (inc i) (:trail state)))]
+    (if (or (neg-int? obs-r) (neg-int? obs-c)
+            (>= obs-r maxr) (>= obs-c maxc)
+            (some #{new-obs} (map :loc new-trail)) 
+            (some #{new-obs} (:obstacles state)))
+      nil
+      (-> state
+          (assoc :trail new-trail) ;; truncate trail to the current position
+          (update :obstacles conj new-obs) ;; add an obstacle
+          (assoc :guard {:loc loc :dir dir})
+          traverse-room))))
 
 (defn find-loops
   "Given the guard's trail, at each step check if turning right and traversing the room 
    results in revisiting a location and direction"
   [state]
-  (for [i (range 1 (dec (count (:trail state))))
+  (for [i (range 2 (dec (count (:trail state))))
         :let [st (test-for-loop state i)]
+        :when (not (nil? st))
         :when (= :looped (:exit-status st))]
     (nth (:trail st) i)))
 
@@ -106,14 +115,16 @@
 (comment
   (def testf "data/day06-test.txt")
   (def test2f "data/day06-test2.txt")
+  (def test4f "data/day06-test4.txt")
   (def inputf "data/day06-input.txt")
   (part1 testf)
   (part1 test2f)
-  (part1 inputf)
-  (part2 testf)
+  (time (part1 inputf))
+  (time (part2 testf))
   (part2 test2f)
-  (part2 inputf))
-;; 371,372,373 are too low!
-;; 1738 is incorrect
+  (part2 test4f)
+  (time (part2 inputf)))
+;; 371, 372, 373 are too low!
+;; 1549, 1738 are incorrect
 
 ;; The End
