@@ -1,7 +1,7 @@
 (ns aoc24.day21 
   (:require
    [aoc24.util :as util]
-   [clojure.edn :as edn]
+   [clojure.math.combinatorics :as combo]
    [clojure.string :as str]
    [ubergraph.alg :as alg]
    [ubergraph.core :as uber]))
@@ -17,7 +17,7 @@
        util/read-lines))
 
 (defn numeric-keypad
-  "Create an undirected graph of the keypad"
+  "Create a directed graph of the numeric keypad"
   []
   (-> (uber/digraph)
       (uber/add-edges
@@ -37,6 +37,7 @@
        ["A" "0" {:move "<"}])))
 
 (defn directional-keypad
+  "Create a directed graph of the directional keypad"
   []
   (-> (uber/digraph)
       (uber/add-edges
@@ -92,13 +93,39 @@
        (str/join)
        (optimise-path start end)))
 
+(defn edges->keys
+  "Convert a list of nodes into the corresponding key presses."
+  [g node-list]
+  (->> node-list
+       (util/nodes->edges g)
+       (map (partial uber/edge-with-attrs g))
+       (map #(nth % 2))
+       (map :move)
+       str/join
+       (append-to "A")))
+
+(defn all-key-presses
+  "Find all the possible key presses to traverse the keys from start to end"
+  [g start end]
+  (->> (util/all-shortest-paths g start end)
+       (map (partial edges->keys g))))
+
+(defn all-key-sequences
+  "Find the shortest key sequences through all the keys in the code"
+  [g code]
+  (let [pairs (util/mapmap str (partition 2 1 (str "A" code)))]
+    (->> pairs
+         (map #(all-key-presses g (first %) (second %)))
+         (apply combo/cartesian-product)
+         (map str/join))))
+         
+
 (defn key-sequence
   "Find the path to all the keys"
   [g codes]
   (let [pairs (util/mapmap str (partition 2 1 codes))]
     (->> pairs
          (map #(key-presses g (first %) (second %)))
-        ;;  (map str/join)
          (str/join "A")
          (append-to "A"))))
 
@@ -115,7 +142,7 @@
          (str "A")
          (key-sequence d))))
 
-(defn test 
+(defn test-seq 
   [code]
   (let [d (directional-keypad)]
     (->> code
