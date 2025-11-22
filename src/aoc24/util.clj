@@ -1,9 +1,11 @@
 (ns aoc24.util
-  (:require [clojure.string :as str]
+  (:require [clojure.core.matrix :as m]
             [clojure.edn :as edn]
+            [clojure.math :as math]
             [clojure.pprint :as pp]
-            [clojure.core.matrix :as m]
-            [clojure.math :as math]))
+            [clojure.string :as str]
+            [ubergraph.alg :as alg]
+            [ubergraph.core :as uber]))
 
 ;;--------------------------------
 ;; Numeric
@@ -17,7 +19,7 @@
 ;;--------------------------------
 ;; Collections
 
-(def any? (comp boolean some))
+;; (def any? (comp boolean some))
 
 (defn coll-contains?
   "Check if a collection contains the given element"
@@ -202,6 +204,46 @@
       (m/mget m r c)
       nil)))
       
+;;--------------------------------
+;; Graphs
+
+(defn- all-paths-fn
+  "Recursively find all the paths."
+  [G start end state]
+  (if (= start end)
+    (-> state
+        (update :path #(conj % end))
+        (update :visited #(disj % start)))
+    ;;else
+    (let [state' (-> state
+                     (update :visited #(conj % start))
+                     (update :path #(conj % start)))]
+      (for [v (uber/neighbors G start)
+            :when (not (contains? (:visited state') v))]
+        (all-paths-fn G v end state')))))
+
+(defn all-paths
+  "Find all paths from src to dest, subject to rules."
+  [G src dest]
+  (let [state {:visited #{}
+               :path clojure.lang.PersistentQueue/EMPTY}]
+    (->> state
+         (all-paths-fn G src dest)
+         flatten
+         (map (comp seq :path)))))
+
+(defn all-shortest-paths
+  "Find all shortest paths from src to dest."
+  [G src dest]
+  (let [paths (all-paths G src dest)
+        min-len (apply min (map count paths))]
+    (filter #(= (count %) min-len) paths)))
+
+(defn nodes->edges
+  "Convert a sequence of nodes into a sequence of edges."
+  [g nodes]
+  (map #(uber/find-edge g (first %1) (second %1)) (partition 2 1 nodes)))
+
 ;;--------------------------------
 ;; Misc
 
