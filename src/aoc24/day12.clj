@@ -53,7 +53,7 @@
 
 (defn count-sides
   [region]
-  false)
+  0)
 
 (defn score-region
   "Find the area and perimeter of a region and multiply them"
