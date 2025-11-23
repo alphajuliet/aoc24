@@ -12,7 +12,7 @@
 
 (defn clamp
   "Clamp x to lie between a and b inclusive"
-  ;; clamp :: Num a => a -> a -> a -> a
+  ;; clamp : Num a => a -> a -> a -> a
   [x a b]
   (min b (max x a)))
 
@@ -20,6 +20,8 @@
 ;; Collections
 
 ;; (def any? (comp boolean some))
+
+(def not-nil? (comp not nil?))
 
 (defn coll-contains?
   "Check if a collection contains the given element"
@@ -29,25 +31,25 @@
 
 (defn nested-coll?
   "Is this a nested collection?"
-  ;; nested-coll :: Coll a -> Boolean
+  ;; nested-coll : Coll a -> Boolean
   [c]
   (and (coll? c) (coll? (first c))))
 
 (defn argmax
   "Return the value x in xs that maximises (f x)."
-  ;; argmax :: (a -> b) -> Coll a -> Coll B
+  ;; argmax : (a -> b) -> Coll a -> Coll B
   [f coll]
   (apply max-key f coll))
 
 (defn argmin
   "Return the value x in xs that minimises (f x)."
-  ;; argmin :: (a -> b) -> Coll a -> Coll B
+  ;; argmin : (a -> b) -> Coll a -> Coll B
   [f coll]
   (apply min-key f coll))
 
 (defn third
   "Give me the third element"
-  ;; third :: Coll a -> a
+  ;; third : Coll a -> a
   [coll]
   {:pre [(>= (count coll) 3)]}
   (nth coll 2))
@@ -58,7 +60,7 @@
 
 (defn rotate
   "Rotate collection by n to the left. If n is negative rotates to the right."
-  ;; rotate :: Int -> Coll a -> Coll a
+  ;; rotate : Int -> Coll a -> Coll a
   [n coll]
   (let [shift (mod n (count coll))]
     (into [] (concat (drop shift coll)
@@ -66,7 +68,7 @@
 
 (defn swap-elements
   "Swap elements i and j in coll."
-  ;; swap-elements :: Coll a -> Int -> Int -> Coll a
+  ;; swap-elements : Coll a -> Int -> Int -> Coll a
   [coll i j]
   (let [a (nth coll i)
         b (nth coll j)]
@@ -107,7 +109,7 @@
 
 (defn left-pad
   "If S is shorter than LEN, pad it with CH on the left."
-  ;; left-pad :: String -> Int -> String -> String
+  ;; left-pad : String -> Int -> String -> String
   ([s len]
    (left-pad s len " "))
   ([s len ch]
@@ -115,7 +117,7 @@
 
 (def rotate-string
   "Rotate a string."
-  ;; rotate-string :: Int -> String -> String
+  ;; rotate-string : Int -> String -> String
   (comp (partial apply str) rotate))
 
 ;;--------------------------------
@@ -133,7 +135,7 @@
 
 (defn number-of-bits
   "Number of bits required to store `n`."
-  ;; number-of-bits :: Number -> Integer
+  ;; number-of-bits : Number -> Integer
   [n]
   (if (pos? n)
     (-> (math/log n)
@@ -149,14 +151,14 @@
 
 (defn count-if
   "Utility function"
-  ;; count-if :: (a -> Bool) -> Coll a -> Int
+  ;; count-if : (a -> Bool) -> Coll a -> Int
   [f v]
   (count (filter f v)))
 
 (defn filter-if
   "Filter c2 according to the truth of the corresponding element in c1.
   (filter-if [true false true] [1 2 3]) => [1 3]"
-  ;; filter-if :: ∀ a. List Boolean -> List a -> List a
+  ;; filter-if : ∀ a. List Boolean -> List a -> List a
   [c1 c2]
   (remove nil? (map #(if %1 %2 nil) c1 c2)))
 
@@ -236,8 +238,8 @@
   "Find all shortest paths from src to dest."
   [G src dest]
   (let [paths (all-paths G src dest)
-        min-len (apply min (map count paths))]
-    (filter #(= (count %) min-len) paths)))
+        min-len (when (seq paths) (apply min (map count paths)))]
+    (filter #(= min-len (count %)) paths)))
 
 (defn nodes->edges
   "Convert a sequence of nodes into a sequence of edges."
@@ -251,7 +253,7 @@
 
 (defn read-lines
   "Import the data as an array of lines"
-  ;; import-data :: IO File -> List String
+  ;; import-data : IO File -> List String
   [f]
   (->> f
        slurp

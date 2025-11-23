@@ -95,6 +95,7 @@
 
 (defn edges->keys
   "Convert a list of nodes into the corresponding key presses."
+  ;; edges->keys : Graph -> List String -> String 
   [g node-list]
   (->> node-list
        (util/nodes->edges g)
@@ -106,22 +107,28 @@
 
 (defn all-key-presses
   "Find all the possible key presses to traverse the keys from start to end"
+  ;; all-key-presses : Graph -> String -> String -> List String 
   [g start end]
   (->> (util/all-shortest-paths g start end)
        (map (partial edges->keys g))))
 
 (defn all-key-sequences
-  "Find the shortest key sequences through all the keys in the code"
+  "Find the shortest key sequences through all the keys in the code.
+   Add a start node, break into pairs, convert to strings, find all the keypresses for each pair,
+   take the cartesian product of all the paths, and join into strings." 
+  ;; all-key-sequences : Graph -> String -> List String
   [g code]
-  (let [pairs (util/mapmap str (partition 2 1 (str "A" code)))]
-    (->> pairs
-         (map #(all-key-presses g (first %) (second %)))
-         (apply combo/cartesian-product)
-         (map str/join))))
+  (->> code
+     (str "A")
+     (partition 2 1)
+     (util/mapmap str)
+     (map #(all-key-presses g (first %) (second %)))
+     (apply combo/cartesian-product)
+     (map str/join)))
          
-
 (defn key-sequence
   "Find the path to all the keys"
+  ;; key-sequence :: Graph -> String -> String
   [g codes]
   (let [pairs (util/mapmap str (partition 2 1 codes))]
     (->> pairs
